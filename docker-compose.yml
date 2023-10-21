@@ -5,6 +5,7 @@ services:
     image: sweetbubalexxx/moneyger-front
     depends_on:
       - api
+    restart: unless-stopped
     ports:
       - "${PORT:-80}:80"
     volumes:
