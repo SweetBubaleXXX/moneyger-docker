@@ -23,11 +23,12 @@ services:
       CELERY_RESULT_BACKEND: redis://:${REDIS_PASSWORD}@redis:6379/2
       EMAIL_URL: ${EMAIL_URL:-filemail:////tmp/mail/}
       CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-}
+      XFF_TRUSTED_PROXY_DEPTH: ${XFF_TRUSTED_PROXY_DEPTH:-1}
 
   celery_worker:
     extends:
       service: api
-    command: celery -A moneymanager worker --autoscale 2,1
+    command: celery -A moneymanager worker --autoscale 2,1 --loglevel INFO --events
 
   db:
     image: postgres:15-alpine
