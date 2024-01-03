@@ -16,7 +16,7 @@ services:
       - static_files:/app/staticfiles
 
   api:
-    image: sweetbubalexxx/moneyger-server:v2.0.0
+    image: sweetbubalexxx/moneyger-server:v1.2.0
     depends_on:
       - db
       - redis
