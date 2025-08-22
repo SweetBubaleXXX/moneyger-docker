@@ -47,6 +47,7 @@ services:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
+      REVISION: 1
       POSTGRES_USER: django
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     expose:
