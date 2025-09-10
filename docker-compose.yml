@@ -44,15 +44,35 @@ services:
     command: celery -A moneymanager worker --autoscale 2,1 --loglevel INFO --events
 
   db:
-    image: postgres:15-alpine
+    build: .
     restart: unless-stopped
     environment:
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
       POSTGRES_USER: django
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+      NODE_NAME: ${DB_NODE_NAME:-primary}
+      DB_HOST: ${DB_HOST:?}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${REPLICATION_DB:-postgres}
+      REPLICATION_USER: ${DB_REPLICATION_USER:-replication}
+      REPLICATION_PASS: ${DB_REPLICATION_PASS:?}
+      REMOTE_NODE_NAME: ${DB_REMOTE_NODE_NAME:-secondary}
+      REMOTE_DB_HOST: ${REMOTE_DB_HOST:?}
+      REMOTE_DB_PORT: ${REMOTE_DB_PORT:-5432}
+      IS_SECONDARY_NODE: ${DB_SECONDARY_NODE:-false}
+    ports:
+      - ${DB_PORT:-5432}:5432
     expose:
       - 5432
     volumes:
       - database_data:/var/lib/postgresql/data
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./scripts/init.sql:/init.sql:ro
+      - ./scripts/post-init.sh:/post-init.sh:ro
+      - ./scripts/setup-replication.sql:/setup-replication.sql:ro
+      - ./scripts/setup-replication.sh:/setup-replication.sh:ro
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
 
   redis:
     image: redis:7-alpine
@@ -87,4 +107,3 @@ networks:
   notifications_service_network:
     name: ${NOTIFICATIONS_SERVICE_NETWORK:-moneyger-notifications}
     external: ${NOTIFICATIONS_SERVICE_NETWORK_EXTERNAL:-false}
-

@@ -5,12 +5,22 @@ These variables must be present in your `.env` file:
 - [`SECRET_KEY`](https://docs.djangoproject.com/en/4.2/ref/settings/#secret-key)
 - [`ALLOWED_HOSTS`](https://docs.djangoproject.com/en/4.2/ref/settings/#secret-key)
 - `POSTGRES_PASSWORD`
+- `DB_HOST`
+- `DB_REPLICATION_PASS`
+- `REMOTE_DB_HOST`
 - `REDIS_PASSWORD`
 - `RABBITMQ_USER`
 - `RABBITMQ_PASSWORD`
 
 Optional variables:
 
+- `DB_NODE_NAME`
+- `DB_PORT`
+- `REPLICATION_DB`
+- `DB_REPLICATION_USER`
+- `DB_REMOTE_NODE_NAME`
+- `REMOTE_DB_PORT`
+- `DB_SECONDARY_NODE`
 - [`EMAIL_CONFIG`](https://django-environ.readthedocs.io/en/latest/types.html#environ-env-search-url)
 - `CORS_ALLOW_ALL_ORIGINS` *boolean*
 - `CORS_ALLOWED_ORIGINS` *list*
