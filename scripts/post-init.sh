@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER \
+PGPASSWORD=$POSTGRES_PASSWORD psql -U "$POSTGRES_USER" -d "$DB_NAME" \
   -v node_name="$NODE_NAME" \
   -v db_host="$DB_HOST" \
   -v db_port="$DB_PORT" \

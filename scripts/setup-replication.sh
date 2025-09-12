@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PGPASSWORD=$POSTGRES_PASSWORD psql -U "$POSTGRES_USER" \
+PGPASSWORD=$POSTGRES_PASSWORD psql -U "$POSTGRES_USER" -d "$DB_NAME" \
   -v remote_node_name="$REMOTE_NODE_NAME" \
   -v remote_db_host="$REMOTE_DB_HOST" \
   -v remote_db_port="$REMOTE_DB_PORT" \
